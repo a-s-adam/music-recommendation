@@ -26,3 +26,9 @@ A Python-based application that provides personalized music recommendations usin
    ```bash
    git clone https://github.com/a-s-adam/music-recommendation.git
    cd music-recommendation
+
+## Project Structure
+
+1. preprocessing.py : code to preprocess the data to fill "unavailable values" (-1 value) with either NaN or Unknown, depending on if it is numerical or categorical. The dataset has multiple languages, but all languages are filtered out except for English.
+2. recommendation_system.py: Recommendation system that uses numerical features and compares them in a cossine matrix to produce the Top-N similar songs to a randomly selected track.
+3. app.py: Flask UI code to use the system produced from recommendation_system.py
