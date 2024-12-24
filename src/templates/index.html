@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Recommendation System</title>
+</head>
+<body>
+    <h1>Music Recommendation System</h1>
+    
+    <!-- Form to manually enter or select a track -->
+    <form method="get" action="/recommend_ui">
+        <label for="track_name">Enter a track name:</label>
+        <input type="text" id="track_name" name="track_name" required>
+        <button type="button" onclick="randomTrack()">Random Track</button>
+        <br><br>
+        <label for="top_n">Number of recommendations:</label>
+        <input type="number" id="top_n" name="top_n" value="5" min="1">
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <!-- Display recommendations -->
+    {% if recommendations %}
+        <h2>Recommendations for "{{ track_name }}"</h2>
+        <ul>
+            {% for rec in recommendations %}
+                <li>{{ rec.track_name }} by {{ rec.artist_name }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <!-- Dropdown to view all possible track names -->
+    <h3>Available Tracks</h3>
+    <select id="track_list" size="10" style="width: 100%;">
+        {% for track in track_names %}
+            <option>{{ track }}</option>
+        {% endfor %}
+    </select>
+
+    <script>
+        // Ensure track names are serialized as a JSON array
+        const tracks = {{ track_names | tojson | safe }};
+        function randomTrack() {
+            const randomIdx = Math.floor(Math.random() * tracks.length);
+            document.getElementById('track_name').value = tracks[randomIdx];
+        }
+    </script>
+    
+</body>
+</html>
